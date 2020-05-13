@@ -121,6 +121,11 @@ class PerfInstrument(Instrument):
                                        self.labels,
                                        self.force_install)
 
+        events_file = os.path.join(context.output_directory, 'perf_available_events.txt')
+        with open(events_file, 'w') as wfh:
+            wfh.write('\n'.join(self.collector.available_events))
+        context.add_artifact('perf_events', events_file, kind='meta')
+
     def setup(self, context):
         self.outdir = os.path.join(context.output_directory, self.perf_type)
         self.collector.set_output(self.outdir)
